@@ -21,6 +21,8 @@
      
     function articlesGet($id){
         
+          return ["id" => 1, "title" => "Это простой заголовок", "date" => "2016-01-01", "content" => "Контент статьи"];
+        
     }
 
     function articlesNew($title, $date, $content){
