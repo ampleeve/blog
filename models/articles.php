@@ -1,27 +1,36 @@
 <?php
 
-    function articlesAll(){
+    function articlesAll($link){
         
-        $art1 = ["id" => 1, "title" => "Title1", "date" => "2016-01-01", "content" => "content1"];
+        //Запрос
+        $query = "SELECT * FROM articles order by id DESC";
+        $result = mysqli_query($link, $query);
         
-        $art2 = ["id" => 2, "title" => "Title2", "date" => "2016-01-01", "content" => "content2"];
-        
-        $art3 = ["id" => 3, "title" => "Title3", "date" => "2016-01-01", "content" => "content3"];
-        
-        $art4 = ["id" => 4, "title" => "Title4", "date" => "2016-01-01", "content" => "content4"];
-        
-        $arr[0]=$art1;
-        $arr[1]=$art2;
-        $arr[2]=$art3;
-        $arr[3]=$art4;
-        
-        return $arr;
-        
+        if(!$result)
+            
+            die(mysqli_error($link));
+        //Извлечение из бд
+        $n = mysqli_num_rows($result);
+        $articles = array();
+            
+        for ($i=0; $i < $n; $i++ ){
+            $row = mysqli_fetch_assoc($result);
+            $articles[] = $row;
+        }
+            return $articles;
     }
      
-    function articlesGet($id){
+    function articlesGet($link, $idArticle){
+        //Запрос
+        $query = sprintf("SELECT * FROM articles WHERE id = %d", (int)$idArticle);
+        $result = mysqli_query($link, $query);
         
-          return ["id" => 1, "title" => "Это простой заголовок", "date" => "2016-01-01", "content" => "Контент статьи"];
+        if(!$result)
+            die(mysql_error($link));
+        
+        $article = mysqli_fetch_assoc($result);
+        
+        return $article;
         
     }
 
